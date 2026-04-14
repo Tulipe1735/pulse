@@ -1,0 +1,47 @@
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+
+const poppins = localFont({
+  src: [
+    { path: "./fonts/Poppins-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/Poppins-Italic.ttf", weight: "400", style: "italic" },
+    { path: "./fonts/Poppins-Medium.ttf", weight: "500", style: "normal" },
+    {
+      path: "./fonts/Poppins-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+    { path: "./fonts/Poppins-SemiBold.ttf", weight: "600", style: "normal" },
+    {
+      path: "./fonts/Poppins-SemiBoldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
+    { path: "./fonts/Poppins-Bold.ttf", weight: "700", style: "normal" },
+    { path: "./fonts/Poppins-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
+  variable: "--font-geist-sans",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Pulse dashboard",
+  description: "The admin dashboard for Pulse ecommerce platform",
+};
+
+// 全局rootLayout
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${poppins.variable} antialiased`}>{children}</body>
+      </html>
+    </ClerkProvider>
+  );
+}
