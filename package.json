@@ -7,9 +7,6 @@
     "lint": "turbo run lint",
     "check-types": "turbo run check-types"
   },
-  "dependencies": {
-    "next": "latest"
-  },
   "devDependencies": {
     "prettier": "^3.6.2",
     "turbo": "^2.5.6",
