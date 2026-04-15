@@ -5,7 +5,19 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "generated/**"],
-      "env": ["DATABASE_URL"]
+      "env": [
+        "DATABASE_URL",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "CLERK_SECRET_KEY",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL",
+        "NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL",
+        "NEXT_PUBLIC_PRODUCT_SERVICE_URL",
+        "NEXT_PUBLIC_ORDER_SERVICE_URL",
+        "NEXT_PUBLIC_PAYMENT_SERVICE_URL",
+        "NEXT_PUBLIC_AUTH_SERVICE_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
