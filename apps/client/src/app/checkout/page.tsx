@@ -5,14 +5,14 @@ import PaymePaymentForm from "@/components/PaymePaymentForm";
 import useCartStore from "@/stores/cartStore";
 import { ShippingFormInputs } from "@repo/types";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 const steps = [
   { id: 2, title: "Shipping Address" },
   { id: 3, title: "Payment Method" },
 ];
 
-const CheckoutPage = () => {
+const CheckoutPageInner = () => {
   const searchParams = useSearchParams();
   const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
 
@@ -81,6 +81,14 @@ const CheckoutPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const CheckoutPage = () => {
+  return (
+    <Suspense fallback={null}>
+      <CheckoutPageInner />
+    </Suspense>
   );
 };
 

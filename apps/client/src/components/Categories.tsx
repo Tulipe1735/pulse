@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import {
   CoatHanger,
   ShoppingBagOpenIcon,
@@ -27,11 +28,7 @@ const categories = [
     icon: <TShirtIcon className="w-4 h-4" />,
     slug: "t-shirts",
   },
-  {
-    name: "Pants",
-    icon: <PantsIcon className="w-4 h-4" />,
-    slug: "pants",
-  },
+  { name: "Pants", icon: <PantsIcon className="w-4 h-4" />, slug: "pants" },
   {
     name: "Hoodies",
     icon: <HoodieIcon className="w-4 h-4" />,
@@ -42,19 +39,11 @@ const categories = [
     icon: <SneakerMoveIcon className="w-4 h-4" />,
     slug: "shoes",
   },
-  {
-    name: "Caps",
-    icon: <BaseballCapIcon className="w-4 h-4" />,
-    slug: "caps",
-  },
-  {
-    name: "Socks",
-    icon: <SockIcon className="w-4 h-4" />,
-    slug: "socks",
-  },
+  { name: "Caps", icon: <BaseballCapIcon className="w-4 h-4" />, slug: "caps" },
+  { name: "Socks", icon: <SockIcon className="w-4 h-4" />, slug: "socks" },
 ];
 
-const Categories = () => {
+const CategoriesInner = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -63,13 +52,11 @@ const Categories = () => {
 
   const handleChange = (value: string | null) => {
     const params = new URLSearchParams(searchParams);
-
     if (!value || value === "all") {
       params.delete("category");
     } else {
       params.set("category", value);
     }
-
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -88,6 +75,14 @@ const Categories = () => {
         </div>
       ))}
     </div>
+  );
+};
+
+const Categories = () => {
+  return (
+    <Suspense fallback={null}>
+      <CategoriesInner />
+    </Suspense>
   );
 };
 
