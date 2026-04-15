@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack --port 3002",
-    "build": "pnpm --filter @repo/product-db run generate && turbo run build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "check-types": "tsc --noEmit"
