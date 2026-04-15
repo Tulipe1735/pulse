@@ -1,6 +1,6 @@
 {
   "installCommand": "pnpm install",
   "buildCommand": "turbo run build --filter=client",
-  "outputDirectory": ".next",
+  "outputDirectory": "apps/client/.next",
   "framework": "nextjs"
 }
