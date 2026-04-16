@@ -2,8 +2,8 @@
   "name": "ecom",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter client build",
-    "dev": "pnpm --filter client dev"
+    "build": "turbo run build",
+    "dev": "turbo run dev"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

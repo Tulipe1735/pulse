@@ -8,7 +8,8 @@
     "dev": "tsx --env-file=.env --watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "generate": "prisma generate"
   },
   "keywords": [],
   "author": "",
