@@ -1,6 +1,7 @@
 import { Prisma, prisma } from "@repo/product-db";
 import { Request, Response } from "express";
 
+// 创建分类
 export const createCategory = async (req: Request, res: Response) => {
   const data: Prisma.CategoryCreateInput = req.body;
 
@@ -8,6 +9,7 @@ export const createCategory = async (req: Request, res: Response) => {
   res.status(201).json(category);
 };
 
+// 更新分类
 export const updateCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
   const data: Prisma.CategoryUpdateInput = req.body;
@@ -20,6 +22,7 @@ export const updateCategory = async (req: Request, res: Response) => {
   return res.status(200).json(category);
 };
 
+// 删除分类
 export const deleteCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -30,6 +33,7 @@ export const deleteCategory = async (req: Request, res: Response) => {
   return res.status(200).json(category);
 };
 
+// 获取分类列表
 export const getCategories = async (req: Request, res: Response) => {
   const categories = await prisma.category.findMany();
 
