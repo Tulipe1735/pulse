@@ -15,19 +15,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@clerk/express": "^1.7.30",
-    "@prisma/client": "^7.5.0",
-    "@repo/redis": "workspace:*",
+    "@clerk/express": "^1.7.79",
+    "@prisma/client": "^7.8.0",
     "@repo/product-db": "workspace:*",
-    "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "@repo/redis": "workspace:*",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "prisma": "^7.5.0",
-    "tsx": "^4.20.5"
+    "@types/express": "^5.0.6",
+    "prisma": "^7.8.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
   }
 }

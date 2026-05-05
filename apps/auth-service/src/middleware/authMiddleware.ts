@@ -1,3 +1,4 @@
+// 用户/管理员认证中间件，判断权限
 import { getAuth } from "@clerk/express";
 import { Request, Response, NextFunction } from "express";
 import { CustomJwtSessionClaims } from "@repo/types";
@@ -9,11 +10,11 @@ declare global {
     }
   }
 }
-
+// 用户认证中间件，判断是否登录
 export const shouldBeUser = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const auth = getAuth(req);
   const userId = auth.userId;
@@ -26,11 +27,11 @@ export const shouldBeUser = (
 
   return next();
 };
-
+// 管理员认证中间件，判断是否登录且角色为管理员
 export const shouldBeAdmin = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const auth = getAuth(req);
   const userId = auth.userId;

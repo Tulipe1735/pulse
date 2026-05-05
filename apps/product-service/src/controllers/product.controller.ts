@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BestSellerType } from "@repo/types"; // ← 删掉 StripeProductType
+import { BestSellerType } from "@repo/types";
 import { Prisma, prisma } from "@repo/product-db";
 import { producer } from "../utils/redis";
 
@@ -11,79 +11,81 @@ const publishProductEvent = async (topic: string, value: unknown) => {
   }
 };
 
-const getPopularProducts = async (limit?: number) => {
-  const orderServiceUrl =
-    process.env.ORDER_SERVICE_URL ?? process.env.NEXT_PUBLIC_ORDER_SERVICE_URL;
+// const getPopularProducts = async (limit?: number) => {
+//   const orderServiceUrl =
+//     process.env.ORDER_SERVICE_URL ?? process.env.NEXT_PUBLIC_ORDER_SERVICE_URL;
 
-  if (!orderServiceUrl) {
-    return [];
-  }
+//   if (!orderServiceUrl) {
+//     return [];
+//   }
 
-  const query = new URLSearchParams();
+//   const query = new URLSearchParams();
 
-  if (limit) {
-    query.set("limit", String(limit));
-  }
+//   if (limit) {
+//     query.set("limit", String(limit));
+//   }
 
-  const response = await fetch(
-    `${orderServiceUrl}/best-sellers?${query.toString()}`,
-  );
+//   const response = await fetch(
+//     `${orderServiceUrl}/best-sellers?${query.toString()}`,
+//   );
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch best sellers: ${response.status}`);
-  }
+//   if (!response.ok) {
+//     throw new Error(`Failed to fetch best sellers: ${response.status}`);
+//   }
 
-  const bestSellers: BestSellerType[] = await response.json();
-  const bestSellerNames = bestSellers.map((item) => item.name);
+//   const bestSellers: BestSellerType[] = await response.json();
+//   const bestSellerNames = bestSellers.map((item) => item.name);
 
-  if (bestSellerNames.length === 0) {
-    return [];
-  }
+//   if (bestSellerNames.length === 0) {
+//     return [];
+//   }
 
-  const products = await prisma.product.findMany({
-    where: {
-      name: {
-        in: bestSellerNames,
-      },
-    },
-  });
+//   const products = await prisma.product.findMany({
+//     where: {
+//       name: {
+//         in: bestSellerNames,
+//       },
+//     },
+//   });
 
-  const productByName = new Map(
-    products.map((product) => [product.name, product]),
-  );
+//   const productByName = new Map(
+//     products.map((product) => [product.name, product]),
+//   );
 
-  return bestSellerNames
-    .map((name) => productByName.get(name))
-    .filter((product): product is NonNullable<typeof product> =>
-      Boolean(product),
-    );
-};
+//   return bestSellerNames
+//     .map((name) => productByName.get(name))
+//     .filter((product): product is NonNullable<typeof product> =>
+//       Boolean(product),
+//     );
+// };
 
-export const createProduct = async (req: Request, res: Response) => {
-  const data: Prisma.ProductCreateInput = req.body;
+// 创建产品
+// export const createProduct = async (req: Request, res: Response) => {
+//   const data: Prisma.ProductCreateInput = req.body;
 
-  const { colors, images } = data;
-  if (!colors || !Array.isArray(colors) || colors.length === 0) {
-    return res.status(400).json({ message: "Colors array is required!" });
-  }
+//   const { colors, images } = data;
+//   if (!colors || !Array.isArray(colors) || colors.length === 0) {
+//     return res.status(400).json({ message: "Colors array is required!" });
+//   }
 
-  if (!images || typeof images !== "object") {
-    return res.status(400).json({ message: "Images object is required!" });
-  }
+//   if (!images || typeof images !== "object") {
+//     return res.status(400).json({ message: "Images object is required!" });
+//   }
 
-  const missingColors = colors.filter((color) => !(color in images));
+//   const missingColors = colors.filter((color) => !(color in images));
 
-  if (missingColors.length > 0) {
-    return res
-      .status(400)
-      .json({ message: "Missing images for colors!", missingColors });
-  }
+//   if (missingColors.length > 0) {
+//     return res
+//       .status(400)
+//       .json({ message: "Missing images for colors!", missingColors });
+//   }
 
-  const product = await prisma.product.create({ data });
+//   const product = await prisma.product.create({ data });
 
-  // ← Stripe 同步全部删掉，product 直接返回
-  res.status(201).json(product);
-};
+//   res.status(201).json(product);
+// };
+
+// 更新产品
 
 export const updateProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -97,6 +99,7 @@ export const updateProduct = async (req: Request, res: Response) => {
   return res.status(200).json(updatedProduct);
 };
 
+// 删除商品
 export const deleteProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -104,11 +107,10 @@ export const deleteProduct = async (req: Request, res: Response) => {
     where: { id: Number(id) },
   });
 
-  // ← product.deleted 事件也删掉，payment-service 不再监听它
-
   return res.status(200).json(deletedProduct);
 };
 
+// 商品列表查询：支持 `sort`、`category`、`search`
 export const getProducts = async (req: Request, res: Response) => {
   const { sort, category, search } = req.query;
 
@@ -147,6 +149,7 @@ export const getProducts = async (req: Request, res: Response) => {
   return res.status(200).json(products);
 };
 
+// 商品详情查询
 export const getProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
 
